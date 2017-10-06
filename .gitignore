@@ -1,0 +1,7 @@
+vendor
+storage
+env
+database
+tests
+composer.lock
+*.idea
