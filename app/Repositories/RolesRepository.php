@@ -16,4 +16,6 @@ class RolesRepository extends SiteRepository
     {
         $this->model = $role;
     }
+
+
 }

@@ -25,6 +25,7 @@ class AdminController extends Controller
 
 
 
+
     public function __construct(CategoriesRepository $cat_rep) {        
         $this->user = Auth::user();        
         $this->cat_rep = $cat_rep;        

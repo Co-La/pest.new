@@ -90,7 +90,7 @@
             </a>
         </li>
         <li>
-            <a href="chart.html">
+            <a href="{{  route('permissions') }}">
                 <i class="fa fa-user"></i>
                 <span class="link-title">
                     Utilizatori

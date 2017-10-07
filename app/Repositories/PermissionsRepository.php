@@ -9,11 +9,36 @@
 namespace App\Repositories;
 
 use App\Permision;
+use Gate;
 
-class PermissionsRepository
+class PermissionsRepository extends SiteRepository
 {
-    public function  __construct(Permision $permision) {
-
+    protected $rol_rep;
+    public function __construct(Permision $permision, RolesRepository $rol_rep)
+    {
         $this->model = $permision;
+        $this->rol_rep = $rol_rep;
     }
+
+    public function changePermissions($request)
+    {
+        if(Gate::denies('UPDATE_USERS', function() {
+            abort(404);
+        }));
+
+        $input = $request->except('_token');
+
+       $roles = $this->rol_rep->get();
+
+        foreach($roles as $role) {
+            if(isset($input[$role->id])) {
+                $role->savePermission($input[$role->id]);
+            } else {
+                $role->savePermission([]);
+            }
+        }
+
+        return ['succes' => 'Modificarile au fost pastrate'];
+    }
+
 }
