@@ -58,7 +58,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
                                                                                 'update'    =>  'updateProd',
                                                                                 'destroy' => 'delProd']]);
 
-
+Route::resource('/permissions', 'Admin\PermissionsController', ['names' => ['index' => 'permissions', 'store' => 'save']]);
 
     
 });

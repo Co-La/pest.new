@@ -23,9 +23,6 @@ class AdminController extends Controller
     protected $p_rep;
 
 
-
-
-
     public function __construct(CategoriesRepository $cat_rep) {        
         $this->user = Auth::user();        
         $this->cat_rep = $cat_rep;        

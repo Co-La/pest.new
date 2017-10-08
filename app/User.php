@@ -42,7 +42,7 @@ class User extends Authenticatable
         } else {
 
             foreach ($this->roles as $role) {
-                foreach ($role->permisions as $permision) {
+                foreach ($role->permissions as $permision) {
                    if(str_is($perm, $permision->name)) {
                        return TRUE;
                    }
