@@ -18,4 +18,8 @@ class Product extends Model
     {
         return $this->belongsTo('App\Company');
     }
+
+    public function doses() {
+        return $this->hasMany('App\Registers');
+    }
 }

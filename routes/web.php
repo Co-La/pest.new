@@ -83,5 +83,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
                                                                             'destroy' =>  'delMeth'
                                                                         ]]);
 
-    
+    Route::resource('/registers', 'Admin\RegistersController', ['names' => ['index'   => 'registers',
+                                                                        'create'  => 'newReg',
+                                                                        'store'   => 'storeReg',
+                                                                        'update'  =>  'updateReg',
+                                                                        'edit'    =>  'editReg',
+                                                                        'destroy' =>  'delReg'
+                                                                    ]]);
 });

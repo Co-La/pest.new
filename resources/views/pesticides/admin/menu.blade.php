@@ -71,7 +71,7 @@
 
 
         <li>
-            <a href="table.html">
+            <a href="{{ route('registers') }}">
                 <i class="fa fa-table"></i>
                 <span class="link-title">Registrul</span>
             </a>
