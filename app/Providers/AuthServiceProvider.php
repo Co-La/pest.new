@@ -35,6 +35,17 @@ class AuthServiceProvider extends ServiceProvider
             return $user->canDo('UPDATE_USERS');
         }) ;
 
+        Gate::define('SAVE_TEXT', function(User $user) {
+            return $user->canDo('SAVE_TEXT');
+        }) ;
         //
+
+        Gate::define('DELETE_TEXT', function(User $user) {
+            return $user->canDo('DELETE_TEXT');
+        }) ;
+
+        Gate::define('UPDATE_TEXT', function(User $user) {
+            return $user->canDo('UPDATE_TEXT');
+        }) ;
     }
 }

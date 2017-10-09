@@ -32,19 +32,20 @@
         <!-- Jquery -->
         <script src="{{ asset(env('THEM')) }}/admin/assets/lib/jquery/jquery.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-       
 
-
+        <!--CKEDITOR-->
+        <script src="{{ asset(env('THEM')) }}/admin/assets/js/ckeditor/ckeditor.js"></script>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
         <![endif]-->
 
         <!--For Development Only. Not required -->
-       
+
         <link rel="stylesheet" href="{{ asset(env('THEM')) }}/admin/assets/css/style-switcher.css">
         <link rel="stylesheet/less" type="text/css" href="{{ asset(env('THEM')) }}/admin/assets/less/theme.less">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.js"></script>
@@ -86,12 +87,16 @@
         
         <script type="text/javascript">
               $( function() {
-                 $( "#datepicker" ).datepicker();
-                
+                  $("#datepicker").datepicker();
+              });
         </script>
-        
-        
-        
+
+        <script type="text/javascript">
+            CKEDITOR.replace('utilization');
+        </script>
+
+
+
 
 
         <!--Bootstrap -->
@@ -99,7 +104,7 @@
        
         <!-- Font Awesome -->        
         <script src="https://use.fontawesome.com/c710c8f031.js"></script>
-        
+
         <!-- MetisMenu -->
         <script src="{{ asset(env('THEM')) }}/admin/assets/lib/metismenu/metisMenu.js"></script>
         <!-- onoffcanvas -->
@@ -118,6 +123,8 @@
 
 
         <script src="{{ asset(env('THEM')) }}/admin/assets/js/style-switcher.js"></script>
+
+
     </body>
 </html>
 

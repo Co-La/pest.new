@@ -109,7 +109,11 @@ class SiteRepository {
     }
     
     public function del($id) {
-        
+
+        if(\Gate::denies('DELETE_TEXT', function() {
+            abort(404);
+        }));
+
         $result = $this->model->find($id);
         if($result->delete()) {            
             return true;
@@ -135,7 +139,40 @@ class SiteRepository {
         
         
     }
-   
+
+    public function save($request) {
+
+        if(\Gate::denies('SAVE_TEXT', function() {
+            abort(404);
+        }));
+
+        if($request->isMethod('POST')) {
+            $input = $request->except('_token');
+            $this->model->fill($input)->save();
+            return ['status' => 'Datele au fost pastrate'];
+        } else {
+            return ['error' => 'A intervenit o eroare'];
+        }
+
+    }
+
+    public function update($request, $id) {
+
+        if($request->isMethod('PUT')) {
+            if(\Gate::denies('UPDATE_TEXT', function() {
+                abort(404);
+            }));
+            $input = $request->except('_token', '_method');
+            $result = $this->model->where('id', $id);
+            $result->update($input);
+            return ['status' => 'Datele au fost modificate'];
+        } else {
+            return ['error' => 'A intervenit o eroare'];
+        }
+
+    }
+
+
    
 }
 

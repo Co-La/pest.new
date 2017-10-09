@@ -58,7 +58,30 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
                                                                                 'update'    =>  'updateProd',
                                                                                 'destroy' => 'delProd']]);
 
-Route::resource('/permissions', 'Admin\PermissionsController', ['names' => ['index' => 'permissions', 'store' => 'save']]);
+    Route::resource('/permissions', 'Admin\PermissionsController', ['names' => ['index' => 'permissions', 'store' => 'save']]);
+
+    Route::resource('/cultures', 'Admin\CulturesController', ['names' => ['index'       => 'cultures',
+                                                                                                            'create'        => 'newCult',
+                                                                                                            'store'         => 'storeCult',
+                                                                                                            'update'      =>    'updateCult',
+                                                                                                            'edit'          =>  'editCult',
+                                                                                                            'destroy'    =>  'delCult'
+                                                                                                            ]]);
+
+    Route::resource('/parazites', 'Admin\ParazitesController', ['names' => ['index'   => 'parazites',
+                                                                                                            'create'        => 'newParaz',
+                                                                                                            'store'         => 'storeParaz',
+                                                                                                            'update'      =>    'updateParaz',
+                                                                                                            'edit'          =>  'editParaz',
+                                                                                                            'destroy'    =>  'delParaz'
+                                                                                                            ]]);
+    Route::resource('/methods', 'Admin\MethodsController', ['names' => ['index'   => 'methods',
+                                                                            'create'  => 'newMeth',
+                                                                            'store'   => 'storeMeth',
+                                                                            'update'  =>  'updateMeth',
+                                                                            'edit'    =>  'editMeth',
+                                                                            'destroy' =>  'delMeth'
+                                                                        ]]);
 
     
 });

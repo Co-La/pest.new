@@ -53,17 +53,17 @@
         </li>
 
         <li class="">
-            <a href="cultivations.html">
+            <a href="{{ route('cultures') }}">
                 <i class="fa fa-leaf"></i><span class="link-title">&nbsp;Culturi</span>
             </a>
         </li>
         <li class="">
-            <a href="parazites.html">
+            <a href="{{route('parazites')}}">
                 <i class="fa fa-bug"></i><span class="link-title">&nbsp;Paraziti</span>
             </a>
         </li>
         <li class="">
-            <a href="utilizations.html">
+            <a href="{{ route('methods') }}">
                 <i class="fa fa-umbrella"></i><span class="link-title">&nbsp;Metode de utilizare</span>
             </a>
         </li>                   
