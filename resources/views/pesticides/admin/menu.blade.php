@@ -77,7 +77,7 @@
             </a>
         </li>
         <li>
-            <a href="typography.html">
+            <a href="{{ route('articles') }}">
                 <i class="fa fa-font"></i>
                 <span class="link-title">Articole</span> 
             </a>
@@ -100,7 +100,7 @@
 
         <li class="nav-divider"></li>
         <li>
-            <a href="login.html">
+            <a href="{{ route('logout') }}">
                 <i class="fa fa-sign-out"></i>
                 <span class="link-title">
                     Iesire

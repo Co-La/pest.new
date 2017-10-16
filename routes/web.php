@@ -4,6 +4,7 @@
 
 Route::resource('/', 'Site\IndexController', ['names' => ['index' => 'home']]);
 Route::resource('/articles', 'Site\ArticleController', ['names' => ['index' => 'articles', 'show' => 'article']]);
+Route::get('/filter/{id}', 'Site\AjaxController@filter')->name('filter');
 Route::resource('/companies', 'Site\CompanieController', ['names' => ['index' => 'companies']]);
 Route::get('/search', 'Site\SearchController@index')->name('search');
 Route::post('/ajax', 'Site\AjaxController@ajaxIndex')->name('ajax');
@@ -90,4 +91,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
                                                                         'edit'    =>  'editReg',
                                                                         'destroy' =>  'delReg'
                                                                     ]]);
+
+    Route::resource('/articles', 'Admin\ArticlesController', ['names' => ['index'   => 'articles',
+                                                                'create'  => 'newArt',
+                                                                'store'   => 'storeArt',
+                                                                'update'  =>  'updateArt',
+                                                                'edit'    =>  'editArt',
+                                                                'destroy' =>  'delArt'
+                                                                ]]);
 });

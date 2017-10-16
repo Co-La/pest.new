@@ -16,6 +16,7 @@ class AjaxController extends SiteController
     public function __construct(MenusRepository $m_rep, CompaniesRepository $c_rep, ProductsRepository $p_rep, ArticlesRepository $a_rep) {
         parent::__construct($m_rep, $c_rep, $a_rep);
         $this->p_rep = $p_rep;
+        $this->a_rep = $a_rep;
     }
     
     public function ajaxIndex(Request $request) 
@@ -30,7 +31,14 @@ class AjaxController extends SiteController
             
             return response()->json($product->toArray());
         }
-        
-    }   
-    
+
+    }
+
+    public function filter($id)
+    {
+        $filter_id = ['filter_id', $id];
+        $articles = $this->a_rep->getAllByID($filter_id);
+        return $articles->load('filter');
+    }
+
 }

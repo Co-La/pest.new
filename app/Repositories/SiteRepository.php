@@ -16,23 +16,22 @@ class SiteRepository {
     public function get($select = '*', $take = FALSE, $where = FALSE, $paginate = FALSE) {
         
         $result = $this->model->select($select);
-               
-        
+
+
         if($take) {
-            
+
             $result->take($take);
         }
-        
+
         if($where) {
-            
+
             $result->where($where[0],$where[1]);
         }
-        
+
         if($paginate) { 
             return  $result->paginate($paginate);
         }
-        
-        return $result->get();
+        return $this->getJson($result->get());
     }
     
     public function getFirst() {
@@ -43,8 +42,21 @@ class SiteRepository {
     
     public function getByID($id, $select = '*') 
     {          
-        $result = $this->model->select($select)->where('id', $id)->first();  
-           return $result;           
+        $result = $this->model->select($select)->where('id', $id)->first();
+        return $result;
+    }
+
+    public function getJson($result)
+    {
+        if (count($result) > 1) {
+            foreach ($result as $item) {
+                if (isset($item->image) && is_object(json_decode($item->image))) {
+                    $item->image = json_decode($item->image);
+                }
+            }
+        }
+        return $result;
+
     }
     
     
@@ -148,6 +160,14 @@ class SiteRepository {
 
         if($request->isMethod('POST')) {
             $input = $request->except('_token');
+            if($request->hasFile('image')) {
+                $file = $request->file('image');
+                $image = new \stdClass();
+                $image->small = 'sm_'.str_random(5).'.jpg';
+                $image->big = 'big_'.str_random(5).'.jpg';
+                $file->move(env('THEM').'/image/articles', $image->small);
+                $input['image'] = json_encode($image);
+            }
             $this->model->fill($input)->save();
             return ['status' => 'Datele au fost pastrate'];
         } else {

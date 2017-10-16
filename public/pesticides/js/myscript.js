@@ -239,6 +239,34 @@ jQuery(function ($) {
         });
         
     });
+
+    $(".filter_ch").on("click", function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            method: "GET",
+            headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")},
+            success: function(res) {
+                console.log(res);
+                $(".articles-list").html('');
+                $.each(res, function(key, value) {
+                    $(".articles-list").append("<div class='col-12 blog-articles'><div class='row'><div class='col-md-5 col-sm-12'>" +
+                        "<a href='' alt='title'><image class='blog-article-image' src='pesticides/image/" + value.image.small + "' alt='article_image'>" +
+                        "</div><div class='col-md-7 col-sm-12 article-text-content'><p style='text-align: right; font-size: 12px'>" + value.created_at + "</p>" +
+                        "<a href='"+ 'blogs/'+ value.id + "'><h3>" + value.title + "</h3></a>" +
+                        "<a href='' class='filter_ch' ><h6>" + value.filter.name + "</h6></a>" +
+                        "<p class='text-justify'>"+ value.text.substring(0, 250) + '...'+ "</p>" +
+                        "<a href ='"+ 'blogs/'+ value.id + "'>Ready more</a>" +
+                    "</div></div><hr></div>");
+
+                });
+            }
+
+        });
+    });
+
+
   
  
 });

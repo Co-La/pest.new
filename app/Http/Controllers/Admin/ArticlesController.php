@@ -5,17 +5,19 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\Repositories\CategoriesRepository;
-use App\Repositories\RegistersRepository;
-use DB;
+use App\Repositories\ArticlesRepository;
+use Hash;
+use App\User;
 
-class RegistersController extends AdminController
+
+class ArticlesController extends AdminController
 {
-    protected $reg_rep;
+    protected $art_rep;
 
-    public function __construct(CategoriesRepository $cat_rep, RegistersRepository $reg_rep)
+    public function __construct(CategoriesRepository $cat_rep, ArticlesRepository $art_rep)
     {
         parent::__construct($cat_rep);
-        $this->reg_rep = $reg_rep;
+        $this->art_rep = $art_rep;
         $this->view = env('THEM').'.admin.home';
     }
 
@@ -26,32 +28,16 @@ class RegistersController extends AdminController
      */
     public function index()
     {
-        $registers = $this->getRegisters();
-        $parasites = [];
-        foreach($registers as $register) {
-            $parasites[$register->id] = DB::table('parasites')->whereIn('id', [$register->parasite_id])->get();
-        }
-        $page_title = 'Registrul produselor';
-        $this->content = view(env('THEM').'.admin.register_content')->with(['registers' => $registers,
-                                                                            'page_title' => $page_title,
-                                                                            'parasites' => $parasites])
-                                                                            ->render();
+        $articles = $this->getArticles();
+        $page_title = 'Articole';
+        $this->content = view(env('THEM').'.admin.articles_content')->with(['articles'=> $articles, 'page_title' => $page_title])->render();
         return $this->getView();
     }
 
-    //get all regiter items
-    protected function getRegisters()    {
-        return $this->reg_rep->get('*', FALSE, FALSE, config('settings.list_products'));
+    protected function getArticles()
+    {
+        return $this->art_rep->get('*', FALSE, FALSE, config('settings.list_products'));
     }
-
-//    protected function changeForeign()
-//    {
-//        $items = $this->reg_rep->get();
-//        foreach($items as $item) {
-//        $item->where('id', $item->id)->update(['product_id' => $item->accessory_id, 'culture_id' => $item->cultivation_id]);
-//        }
-//    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -60,7 +46,8 @@ class RegistersController extends AdminController
      */
     public function create()
     {
-       //
+        $this->content = view(env('THEM').'.admin.article_content_edit')->render();
+        return $this->getView();
     }
 
     /**
@@ -71,7 +58,11 @@ class RegistersController extends AdminController
      */
     public function store(Request $request)
     {
-        //
+        $result = $this->art_rep->save($request);
+        if(is_array($result) && !empty($result['error'])) {
+            return back()->with($result)->withInput();
+        }
+        return redirect('admin/articles')->with($result);
     }
 
     /**
@@ -93,7 +84,13 @@ class RegistersController extends AdminController
      */
     public function edit($id)
     {
-        //
+        $article = $this->getArticle($id);
+        $this->content = view(env('THEM').'.admin.article_content_edit')->with('article', $article)->render();
+        return $this->getView();
+    }
+
+    protected function getArticle($id) {
+        return $this->art_rep->getByID($id);
     }
 
     /**
@@ -105,7 +102,11 @@ class RegistersController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        //
+        $result = $this->art_rep->update($request, $id);
+        if(is_array($result) && !empty($result['error'])) {
+            return back()->with($result)->withInput();
+        }
+        return redirect('admin/articles')->with($result);
     }
 
     /**
@@ -116,6 +117,9 @@ class RegistersController extends AdminController
      */
     public function destroy($id)
     {
-        //
+        $del = $this->art_rep->del($id);
+        if($del) {
+            return response()->json(['true' => TRUE]);
+        }
     }
 }

@@ -35,7 +35,11 @@
                                         <td><a href="{{ route('editReg', $register->id)}}" class="editComp" alt="company">{{ $register->product->name }}</a></td>
                                         <td>{{ str_limit($register->culture->name, 50) }}</td>
                                         <td>{{ $register->dose }}</td>
-                                        <td>{{ $register->parasite_id }}</td>
+                                        <td>
+
+
+
+                                        </td>
                                         <td>{{ str_limit($register->method->utilization, 100) }}</td>
                                         <td>{{ $register->exit_date }}</td>
                                         <td>{{ str_limit($register->last_utilization,30)   }}</td>

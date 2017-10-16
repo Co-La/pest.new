@@ -184,6 +184,8 @@ return [
         //ide helper
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+
+
     ],
 
     /*
@@ -238,6 +240,8 @@ return [
         //form&&html
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+
 
     ],
 

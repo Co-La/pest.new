@@ -38,8 +38,6 @@ jQuery(function($) {
          
          $("#search-result").css('display','none');
      }
-     
-     
     
     });
 
