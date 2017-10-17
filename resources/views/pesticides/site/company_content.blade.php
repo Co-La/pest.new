@@ -16,7 +16,12 @@
         {{ Form::open(['url' => route('companies'), 'class'=> 'form-horizontal contact-form-cl', 'id' => 'select_company_item' ]) }}
             <div class="form-group col-lg-12 col-md-12 col-sm-12">
                 {{ Form::label('company', 'Producatori', ['class' => 'control-label']) }}
-                {{ Form::select('company', $companies, isset($company['id']) ? $company['name'] : null, ['class' => 'form-control', 'id' => 'company_ID']) }}
+                @if(isset($company['id']))
+                    {{ Form::select('company', $companies, '/companies/'.$company['id'] , ['class' => 'form-control', 'id' => 'company_ID']) }}
+                @else
+                    {{ Form::select('company', $companies, NULL , ['class' => 'form-control', 'id' => 'company_ID']) }}
+                @endif
+
             </div> 
         {{Form::close()}} 
     </div>

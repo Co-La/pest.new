@@ -8,7 +8,7 @@
     <div class="col-lg-7 text-justify f_index_text" >
         <a href="{{ route('article', ['id' => $article->id]) }}"><h5>{{ str_limit($article->title, 150) }} </h5></a>
         <p>
-            {{ str_limit($article->text,500) }}
+            {!!  str_limit($article->text,500) !!}
         </p>
         <a href="{{ route('article', ['id' => $article->id]) }}" class="btn btn-success pull-right">Citeste</a>
     </div>  

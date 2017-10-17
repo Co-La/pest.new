@@ -29,8 +29,7 @@ class CompanieController extends SiteController
      */
     public function index()
     {
-        $companies = $this->getCompanies();   
-       // dd($companies);
+        $companies = $this->getCompanies();
         $this->content = view(env('THEM').'.site.company_content')->with('companies', $companies)->render();
         $this->vars = array_add($this->vars, 'content', $this->content);
         return $this->getView();
@@ -63,18 +62,16 @@ class CompanieController extends SiteController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Request $request)
+    public function show($id)
     {
         if(!is_numeric($id)) {            
             abort(404);
         }   
-              
-        
-        $company = $this->getCompany($id); 
+
+        $company = $this->getCompany($id);
         //dd($company);
         $where = ['company_id', $id];              
-        $products = $this->getProducts($where);  
-        //dd($products);        
+        $products = $this->getProducts($where);
         $companies = $this->getCompanies();
         $this->content = view(env('THEM').'.site.company_content')->with([  'company'   =>  $company, 
                                                                             'products'  =>  $products,

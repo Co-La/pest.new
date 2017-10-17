@@ -266,9 +266,12 @@ jQuery(function ($) {
         });
     });
 
+    $("#big_news .img-thumbnail, #image-schemes img").hover(function() {
+        $(this).css({'box-shadow': '0px 0px 20px rgba(0,0,0,0.1'});
+    }, function() {
+        $(this).css({'box-shadow': '0px 0px 20px rgba(0,0,0,0.5'});
+    });
 
-  
- 
 });
 
 
