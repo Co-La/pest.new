@@ -1,4 +1,4 @@
-jQuery(function ($) {
+jQuery(function() {
 
     $('#company_ID option').on('click', function () {
         var comp_id = $(this).val();
@@ -6,42 +6,39 @@ jQuery(function ($) {
           window.location.href = comp_id;
         }
     });
-            
-    $('#product_ID option').on('click', function () {
-        var prod_id = $(this).val();
-        var url = $('#select_item').attr('action');
-        var nbr = $('.number_item').val();
-       
-        if (prod_id !== null) {
-            $.ajax({
-                url: url,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: 'POST', 
-                dataType: 'JSON',
-                data: "prod_id=" + prod_id ,
-                success: function (result) {                     
-                    $('.number_item').val('1');
-                    if(result !== null) {
-                        $(".pest_content_container").css('display','block');
-                        $("#activ_sub").val(result.substance);  
-                        $("#grup").val(result.level);
-                        $("#product_id").val(result.id);
-                        $("#date").val(result.created_at);  
-                        $("#packet").val(result.pack);
-                        $("#price").val(result.price);  
-                        $("#curr").val(result.curr); 
-                        $("#price_mdl").val(result.price_mdl);
-                        $("#full_price").text(result.price_mdl);
-                        $(".number_item").attr('product_id', prod_id);
-                    
-                    }                 
-                }
 
-            });
-        }
+
+    $("#product_ID").on("change", function() {
+        var prod_id = $(this).val();
+        var url = $("#select_item").attr("action");
+        var nbr = $(".number_item").val();
+
+        $.ajax({
+            url: url,
+            headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")},
+            method: "POST",
+            dataType: "JSON",
+            data: "prod_id=" + prod_id ,
+            success: function (result) {
+                $(".pest_content_container").css("display","block");
+                $(".number_item").val("1");
+                $("#activ_sub").val(result.substance);
+                $("#grup").val(result.level);
+                $("#product_id").val(result.id);
+                $("#date").val(result.created_at);
+                $("#packet").val(result.pack);
+                $("#price").val(result.price);
+                $("#curr").val(result.curr);
+                $("#price_mdl").val(result.price_mdl);
+                $("#full_price").text(result.price_mdl);
+                $(".number_item").attr("product_id", prod_id);
+
+            }
+
+        });
     });
-    
-    
+
+
        $(".plus_item").on('click', function() {        
        
         var currenEvent = $(this);
@@ -271,6 +268,8 @@ jQuery(function ($) {
     }, function() {
         $(this).css({'box-shadow': '0px 0px 20px rgba(0,0,0,0.5'});
     });
+
+
 
 });
 

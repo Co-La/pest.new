@@ -6,7 +6,7 @@
             <div class="form-group col-lg-12 col-md-12 col-sm-12">
                 
                 {{ Form::label('product', 'Produse', ['class' => 'control-label']) }}
-                {{ Form::select('product',(isset($products) && isset($company['name'])) ? $products : [], null, ['class' => 'form-control', 'id' => 'product_ID']) }}                
+                {{ Form::select('product',(isset($products) && isset($company['name'])) ? $products : [], null, ['class' => 'form-control', 'id' => 'product_ID']) }}
             </div>        
         {{Form::close()}} 
     </div>
@@ -41,3 +41,4 @@
  </div>  
 
 @endif
+

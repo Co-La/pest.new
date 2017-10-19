@@ -25,7 +25,6 @@ class IndexController extends SiteController
      * @return \Illuminate\Http\Response
      */
     public function index()    {
-        
         $firstnews = $this->getArticle();
         $this->vars = array_add($this->vars, 'firstnews', $firstnews);
         
