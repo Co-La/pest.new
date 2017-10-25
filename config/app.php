@@ -184,8 +184,11 @@ return [
         //ide helper
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        // Laravel\socialite
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
-
+        //image intervetion
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -240,8 +243,9 @@ return [
         //form&&html
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-
-
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        //image change
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

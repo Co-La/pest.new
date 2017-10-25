@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'facebook' => [
+        'client_id' => '493988010957367',
+        'client_secret' => 'dce1ab68f62212d3826a83c1d9a7f667',
+        'redirect' => 'http://pest.new/login/facebook/callback',
+    ],
+
 ];

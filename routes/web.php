@@ -7,7 +7,7 @@ Route::resource('/articles', 'Site\ArticleController', ['names' => ['index' => '
 Route::get('/filter/{id}', 'Site\AjaxController@filter')->name('filter');
 Route::resource('/companies', 'Site\CompanieController', ['names' => ['index' => 'companies']]);
 Route::get('/search', 'Site\SearchController@index')->name('search');
-Route::post('/ajax', 'Site\AjaxController@ajaxIndex')->name('ajax');
+Route::get('/ajax/{id?}', 'Site\AjaxController@ajaxIndex')->name('ajax');
 Route::group(['prefix' => 'bag'], function() {
     
     Route::get('/', 'Site\BagController@index')->name('bag');
@@ -35,11 +35,19 @@ Route::get('/contacts', 'Site\ContactsController@index')->name('contacts');
 Route::post('/contacts', 'Site\ContactsController@message')->name('message');
 Route::get('getproduct', 'GetProductsController@index')->name('getproduct');
 Route::get('/ajaxpr', 'GetAjaxProduct@index')->name('ajaxpr');
+Route::get('/cache', function() {
+
+    //return DB::table('articles')->select('*')->get();
+   Cache::put('articles', DB::table('articles')->select('*')->get(), 20);
+    return (Cache::get('articles'));
+});
 
 
 Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/login/facebook', 'Auth\LoginController@redirectToProvider');
+Route::get('/login/facebook/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     

@@ -5,3 +5,5 @@ database
 tests
 composer.lock
 *.idea
+*.jpeg
+*.jpg

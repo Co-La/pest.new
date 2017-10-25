@@ -16,7 +16,7 @@ jQuery(function() {
         $.ajax({
             url: url,
             headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")},
-            method: "POST",
+            type: "GET",
             dataType: "JSON",
             data: "prod_id=" + prod_id ,
             success: function (result) {

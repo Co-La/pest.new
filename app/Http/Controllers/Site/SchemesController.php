@@ -19,14 +19,11 @@ class SchemesController extends SiteController
     }
     
     public function index() {
-        
-               
         $schemes = $this->getSchemes();
-        //dd($schemes);
         $content = view(env('THEM').'.site.schemes_content')->with('schemes', $schemes)->render();
         $this->vars = array_add($this->vars, 'content', $content);
+
         return $this->getView();
-        
     }
     
     public function getSchemes() {

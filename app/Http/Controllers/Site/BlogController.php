@@ -29,7 +29,6 @@ class BlogController extends SiteController
     public function index()
     {
         $articles = $this->getArticles();
-        //dd($articles);
         $content = view(env('THEM').'.site.articles_content')->with('articles', $articles)->render();
         $this->vars = array_add($this->vars, 'content', $content);
         return $this->getView();
@@ -38,7 +37,6 @@ class BlogController extends SiteController
     public function getArticles() {
         parent::getArticles();
         $articles = $this->a_rep->get('*', FALSE, FALSE, config('settings.paginate'));
-       
         return $articles;
     }
     

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Config;
 use Illuminate\Support\Facades\Session;
+use Image;
 use DB;
 
 class SiteRepository {
@@ -29,24 +30,25 @@ class SiteRepository {
         }
 
         if($paginate) { 
-            return  $result->paginate($paginate);
+           $pagin = $result->paginate($paginate);
+            return $this->checkJson($pagin);
         }
-        return $this->getJson($result->get());
+        return $this->checkJson($result->get());
     }
     
     public function getFirst() {
         
         $result = $this->model->first();
-        return $result;
+        return $this->checkJson($result);
     }
     
     public function getByID($id, $select = '*') 
     {          
         $result = $this->model->select($select)->where('id', $id)->first();
-        return $result;
+        return $this->checkJson($result);
     }
 
-    public function getJson($result)
+    public function checkJson($result)
     {
         if (count($result) > 1) {
             foreach ($result as $item) {
@@ -55,8 +57,12 @@ class SiteRepository {
                 }
             }
         }
+        if(count($result) == 1) {
+            if (isset($result->image) && is_object(json_decode($result->image))) {
+                $result->image = json_decode($result->image);
+            }
+        }
         return $result;
-
     }
     
     
@@ -71,11 +77,11 @@ class SiteRepository {
             $result->where('id', $id);            
         }
                          
-        return $result->first();        
+        return $result->first();
     }
 
 
-    public function loadTab() 
+    public function loadTab()
     {
         $result = DB::table('products')->select()->get();
         
@@ -87,7 +93,7 @@ class SiteRepository {
     public function putSession($id, $nbr, $price) {
        
        //put session id = array(nbr,price)  
-            if(!Session::has('bag'))  {
+           if(!Session::has('bag'))  {
               Session::put('bag');
               Session::put('bag.full_price', 0);
               Session::put('bag.products.'.$id, ['nbr' => $nbr, 'price' => $price]);              
@@ -163,9 +169,11 @@ class SiteRepository {
             if($request->hasFile('image')) {
                 $file = $request->file('image');
                 $image = new \stdClass();
-                $image->small = 'sm_'.str_random(5).'.jpg';
-                $image->big = 'big_'.str_random(5).'.jpg';
-                $file->move(env('THEM').'/image/articles', $image->small);
+                $rand = str_random(5).'.jpg';
+                $image->small = 'sm_'.$rand;
+                $image->big = 'big_'.$rand;
+                Image::make($file)->fit(235,156)->save(public_path().'/'.env('THEM').'/image/articles/'.$image->small);
+                Image::make($file)->save(public_path().'/'.env('THEM').'/image/articles/'.$image->big);
                 $input['image'] = json_encode($image);
             }
             $this->model->fill($input)->save();
@@ -183,7 +191,17 @@ class SiteRepository {
                 abort(404);
             }));
             $input = $request->except('_token', '_method');
-            $result = $this->model->where('id', $id);
+            if($request->hasFile('image')) {
+                $file = $request->file('image');
+                $image = new \stdClass();
+                $rand = str_random(5).'.jpg';
+                $image->small = 'sm_'.$rand;
+                $image->big = 'big_'.$rand;
+                Image::make($file)->fit(235,156)->save(public_path().'/'.env('THEM').'/image/articles/'.$image->small);
+                Image::make($file)->save(public_path().'/'.env('THEM').'/image/articles/'.$image->big);
+                $input['image'] = json_encode($image);
+            }
+            $result = $this->model->find($id);
             $result->update($input);
             return ['status' => 'Datele au fost modificate'];
         } else {

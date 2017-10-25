@@ -32,7 +32,7 @@
                                         <td><a href="{{ route('editArt', $article->id)}}" class="editComp" alt="company">{{ str_limit($article->title, 70) }}</a></td>
                                         <td>{{ str_limit($article->text, 100) }}</td>
                                         <td>{{ $article->status }}</td>
-                                        <td>{{ $article->image }}</td>
+                                        <td>{{ json_encode($article->image)}}</td>
                                         <td><a href="{{ route('delArt', $article->id) }}" data-token="{{ csrf_token() }}" data-id="{{$article->id}}" class="del_item"> <i class="fa fa-trash-o"></i> </a></td>
                                     </tr>
 

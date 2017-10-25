@@ -46,8 +46,8 @@
             <div class="form-group col-12">
                 {{ Form::label('image', 'Imagine', ['class' => 'control-label col-lg-3']) }}
                 <div class="col-lg-5">
-                    @if(isset($article->image))
-                    {{Html::image(asset(env('THEM')).'/image/articles/'.json_decode($article->image)->small, 'imagine', ['class' => 'img-rounded'] )}}
+                    @if(isset($article->image->big))
+                    {{Html::image(asset(env('THEM')).'/image/articles/'.$article->image->big, 'imagine', ['class' => 'img-rounded'] )}}
                     @endif
                     {{ Form::file('image', ['class' => 'form-control col-lg-4']) }}
                 </div>

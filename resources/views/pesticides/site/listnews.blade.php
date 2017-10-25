@@ -2,7 +2,7 @@
 <div class="row f-news"> 
     @foreach($articles as $article)
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 view view-fifth">
-        <img src="{{ asset(env('THEM')) }}/image/{{ $article->image }}" />
+        <img src="{{ asset(env('THEM')) }}/image/articles/{{ isset($article->image->big) ? $article->image->big : $article->image}}" />
         <div class="mask">
             <h2>Articol nou</h2>
             <p>{{ ($article->created_at !== NULL) ? $article->created_at->format('F m d / H:m') : 'Articol nou' }}</p>

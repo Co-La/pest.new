@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-md-5 col-sm-12">
                         <a href="{{ route('article', ['id' => $article->id])}}" alt="title">
-                            <image class="blog-article-image" src="{{ asset(env('THEM')) }}/image/{{ isset($article->image->small) ? $article->image->small : $article->image }}" alt="article_image"/>
+                            <img class="blog-article-image" src="{{ asset(env('THEM')) }}/image/articles/{{ isset($article->image->big) ? $article->image->big : $article->image }}" alt="article_image"/>
                         </a>
                     </div>
                     <div class="col-md-7 col-sm-12 article-text-content">
@@ -48,7 +48,7 @@
             <div class="row" style="text-align: center">
                 <div class="col-12">
                     <a href="">
-                        <image class="col-12" src="{{ asset(env('THEM')) }}/image/no_img.png"  alt="contact_image"/>
+                        <img class="col-12" src="{{ asset(env('THEM')) }}/image/no_img.png"  alt="contact_image"/>
                     </a>
                     <p>2017/03/24 12:20</p>
                     <a style="width: 100%; text-align: center; padding-top: 10px; padding-bottom: 10px" href="#" alt="comment">Ready more coment</a>

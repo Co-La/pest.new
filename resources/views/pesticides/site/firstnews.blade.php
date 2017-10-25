@@ -1,7 +1,7 @@
 @if(count($article) > 0)
 <div class="row f_index_news" id="big_news">
     <div class="col-lg-5 ">          
-        <a href="{{ route('article', ['id' => $article->id]) }}"><img src="{{ asset(env('THEM')) }}/image/{{ ($article->image) ? $article->image : 'no-img.png' }}" alt="" class="rounded img-thumbnail" width="400" height="300"></a>
+        <a href="{{ route('article', ['id' => $article->id]) }}"><img src="{{ asset(env('THEM')) }}/image/articles/{{ isset($article->image->big) ? $article->image->big : 'no-img.png' }}" alt="" class="rounded img-thumbnail" width="400" height="300"></a>
         <span class="news_date"><strong>{{ ($article->created_at) ? $article->created_at->format('m F Y / H:m') : '' }}</strong></span>           
     </div>
 

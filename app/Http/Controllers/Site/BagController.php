@@ -20,7 +20,7 @@ class BagController extends SiteController
         parent::__construct($m_rep, $c_rep, $a_rep );        
         $this->page = env('THEM').'.site.bag';
         $this->p_rep = $p_rep;
-        $this->title = 'BAG';
+        $this->title = 'Cos';
     }
     
     public function index(Request $request) {

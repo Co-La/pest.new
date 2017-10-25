@@ -69,7 +69,6 @@ class CompanieController extends SiteController
         }   
 
         $company = $this->getCompany($id);
-        //dd($company);
         $where = ['company_id', $id];              
         $products = $this->getProducts($where);
         $companies = $this->getCompanies();

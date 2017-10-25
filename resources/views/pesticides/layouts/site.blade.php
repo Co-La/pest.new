@@ -2,8 +2,10 @@
 <html lang="en">
     <head>
         <!-- Required meta tags -->
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Cele mai noi produse de uz fitosanitar">
+        <META NAME="keywords" CONTENT="pesticide, insecticide, erbicide, fungicide, fertilizanti, tratarea semintelor, preparate biologice, protectiea plantelor">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Bootstrap CSS -->
@@ -19,7 +21,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Arizonia" rel="stylesheet"> 
         <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css' />
-        <title>Get product</title>
+        <title>{{ $title }}</title>
 
     </head>
     <body>

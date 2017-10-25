@@ -19,12 +19,12 @@ class AjaxController extends SiteController
         $this->a_rep = $a_rep;
     }
     
-    public function ajaxIndex(Request $request) 
+    public function ajaxIndex(Request $request)
     {
-        if($request->isMethod('POST')) {
+        if($request->isMethod('GET')) {
            
             $product_ID = ['id', $request['prod_id']];
-            $product = $this->p_rep->takeOne($product_ID);    
+            $product = $this->p_rep->takeOne($product_ID);
             if(isset($product->price) && count($product->price) > 0) {                
                 $product->price_mdl = $this->exChange($product->price, $product->curr);
             }    
