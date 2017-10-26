@@ -33,16 +33,21 @@
                                     <tr class="row-{{$register->id}}">
                                         <td>{{ $register->id }}</td>
                                         <td><a href="{{ route('editReg', $register->id)}}" class="editComp" alt="company">{{ $register->product->name }}</a></td>
-                                        <td>{{ str_limit($register->culture->name, 50) }}</td>
-                                        <td>{{ $register->dose }}</td>
+                                        <td>{{ str_limit($register->culture->name, 20) }}</td>
+                                        <td>{{ str_limit($register->dose, 15) }}</td>
                                         <td>
+                                            <ul class="list-unstyled">
+                                            @if(isset($parasites[$register->id]))
+                                                @foreach($parasites[$register->id] as $parasite)
+                                                    <li>{{ str_limit($parasite->science_name, 20) }}</li>
+                                                @endforeach
 
-
-
+                                            @endif
+                                            </ul>
                                         </td>
-                                        <td>{{ str_limit($register->method->utilization, 100) }}</td>
-                                        <td>{{ $register->exit_date }}</td>
-                                        <td>{{ str_limit($register->last_utilization,30)   }}</td>
+                                        <td>{{ str_limit($register->method->utilization, 35) }}</td>
+                                        <td>{{ str_limit($register->exit_date, 10) }}</td>
+                                        <td>{{ str_limit($register->last_utilization, 10)   }}</td>
                                         <td><a href="{{ route('delReg', $register->id) }}" data-token="{{ csrf_token() }}" data-id="{{$register->id}}" class="del_item"> <i class="fa fa-trash-o"></i> </a></td>
                                     </tr>
 

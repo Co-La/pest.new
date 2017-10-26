@@ -21,6 +21,9 @@ class AdminController extends Controller
     protected $c_rep;
     protected $cat_rep;
     protected $p_rep;
+    protected $cul_rep;
+    protected $m_rep;
+    protected $par_rep;
 
 
     public function __construct(CategoriesRepository $cat_rep) {        

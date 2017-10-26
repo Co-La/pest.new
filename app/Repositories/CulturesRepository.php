@@ -10,7 +10,7 @@ namespace App\Repositories;
 
 use App\Cultivation;
 
-class CulturesRepositrory extends SiteRepository
+class CulturesRepository extends SiteRepository
 {
 
     public function __construct(Cultivation $culture) {

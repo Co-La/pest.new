@@ -14,7 +14,7 @@ class SiteRepository {
     protected $prod_ID;
     protected $prod_price;
     
-    public function get($select = '*', $take = FALSE, $where = FALSE, $paginate = FALSE) {
+    public function get($select = '*', $take = FALSE, $where = FALSE, $paginate = FALSE, $orderBy = []) {
         
         $result = $this->model->select($select);
 
@@ -27,6 +27,10 @@ class SiteRepository {
         if($where) {
 
             $result->where($where[0],$where[1]);
+        }
+
+        if($orderBy) {
+            $result->orderBy($orderBy[0], $orderBy[1]);
         }
 
         if($paginate) { 
@@ -191,6 +195,9 @@ class SiteRepository {
                 abort(404);
             }));
             $input = $request->except('_token', '_method');
+            if(isset($input['parasite_id']) && is_array($input['parasite_id'])) {
+                $input['parasite_id'] = implode(',', $input['parasite_id']);
+            }
             if($request->hasFile('image')) {
                 $file = $request->file('image');
                 $image = new \stdClass();
@@ -201,6 +208,8 @@ class SiteRepository {
                 Image::make($file)->save(public_path().'/'.env('THEM').'/image/articles/'.$image->big);
                 $input['image'] = json_encode($image);
             }
+
+
             $result = $this->model->find($id);
             $result->update($input);
             return ['status' => 'Datele au fost modificate'];

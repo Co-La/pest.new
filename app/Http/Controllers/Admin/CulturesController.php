@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\Repositories\CategoriesRepository;
-use App\Repositories\CulturesRepositrory;
+use App\Repositories\CulturesRepository;
 
 class CulturesController extends AdminController
 {
     protected $cult_rep;
 
-    public function __construct(CategoriesRepository $cat_rep, CulturesRepositrory $cult_rep)
+    public function __construct(CategoriesRepository $cat_rep, CulturesRepository $cult_rep)
     {
         parent::__construct($cat_rep);
         $this->view = env('THEM').'.admin.home';

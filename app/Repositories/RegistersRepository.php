@@ -16,4 +16,18 @@ class RegistersRepository extends SiteRepository
     {
         $this->model = $register;
     }
+
+    public function saveRegister($request)    {
+        if($request->isMethod('POST')) {
+            $input = $request->except('_token');
+            $input['parasite_id'] = implode(',', $input['parasite_id']);
+            $register = new Register();
+            $register->fill($input);
+            if($register->save()) {
+                return ['status' => 'Datele au fost pastrate'];
+            } else {
+                return ['error' => 'A intervenit o eroare'];
+            }
+        }
+    }
 }
