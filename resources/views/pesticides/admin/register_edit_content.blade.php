@@ -90,7 +90,6 @@
                                         <li>
                                                 {{ Form::checkbox('parasite_id[]', $parazite['id']) }}
                                                 {{ Form::label('parasite_id', $parazite['name']) }}
-
                                         </li>
 
 

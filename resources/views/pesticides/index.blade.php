@@ -17,7 +17,7 @@
 @endsection
 
 @section('firstnews')
-    {!! $firstnews !!}
+    {!! $content !!}
 @endsection
 
 @section('listnews')

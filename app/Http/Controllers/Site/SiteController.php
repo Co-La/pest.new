@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\MenusRepository;
 use App\Repositories\ArticlesRepository;
+use Cache;
 use Menu;
 use App\Repositories\CompaniesRepository;
 
@@ -25,25 +26,54 @@ class SiteController extends Controller
     protected $cat_rep;
     protected $s_rep;
     protected $comm_rep;
+    protected $search;
+    protected $bar_title;
+
 
     public function __construct(MenusRepository $m_rep, CompaniesRepository $c_rep, ArticlesRepository $a_rep) {
         $this->m_rep = $m_rep;
         $this->c_rep = $c_rep;
         $this->a_rep = $a_rep;
+        $this->page = env('THEM').'.site.home';
+        $this->search = view(env('THEM').'.site.search');
+        $this->bar_title = view(env('THEM').'.site.bar_title');
     }
 
 
     public function getView() 
-    {        
-        $items = $this->getMenu(); 
-        $listnews = $this->getListNews();           
-        $menus = view(env('THEM').'.site.navigation')->with('items', $items)->render();
-        $footer = view(env('THEM').'.site.footer')->with('items', $items)->render();
-        $this->vars = array_add($this->vars, 'listnews', $listnews);
-        $this->vars = array_add($this->vars, 'footer', $footer);
+    {
+        if(!Cache::has('items')) {
+            $items = Cache::remember('items', 20, function () {
+                return $this->getMenu();
+            });
+        }
+        if(!Cache::has('listnews')) {
+            Cache::remember('listnews', 20, function () {
+                return $this->getListNews();
+            });
+        }
+        if(!Cache::has('menus')) {
+            Cache::remember('menus', 20, function () use ($items) {
+                return view(env('THEM') . '.site.navigation')->with('items', $items)->render();
+            });
+        }
+        if(!Cache::has('footer')) {
+            Cache::remember('footer', 20, function () use ($items) {
+                return view(env('THEM') . '.site.footer')->with('items', $items)->render();
+            });
+        }
+        $this->vars = array_add($this->vars, 'search', $this->search);
+        $this->vars = array_add($this->vars, 'bar_title', $this->bar_title);
         $this->vars = array_add($this->vars, 'title', $this->title);
-        $this->vars = array_add($this->vars, 'menus', $menus);
+        $this->vars = array_add($this->vars, 'menus', Cache::get('menus'));
         $this->vars = array_add($this->vars, 'content', $this->content);
+        $this->vars = array_add($this->vars, 'listnews', Cache::get('listnews'));
+        $this->vars = array_add($this->vars, 'footer', Cache::get('footer'));
+
+
+
+
+
         return view($this->page)->with($this->vars);
     }
     

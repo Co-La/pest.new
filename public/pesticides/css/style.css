@@ -168,6 +168,7 @@ div, img, form, input, ul, li, a {
     width: 100px;
     position: relative;
     top:5px;
+    height: 30px;
     
     
     
@@ -913,6 +914,9 @@ span.p-name-value {
     margin: 0px;
     padding: 0px;
     font-size: 100%; 
+}
+.contact_img {
+    height: 70%;
 }
 
 

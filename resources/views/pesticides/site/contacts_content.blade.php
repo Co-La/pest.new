@@ -40,7 +40,7 @@
     </div>
 
     <div class="col-md-auto col-xs-auto auto-img">
-        <img src="{{ asset(env('THEM')) }}/image/contact_img.jpg" alt="contact_img" class="rounded">
+        <img src="{{ asset(env('THEM')) }}/image/contact_img.jpg" alt="contact_img" class="rounded contact_img">
 
     </div>
 

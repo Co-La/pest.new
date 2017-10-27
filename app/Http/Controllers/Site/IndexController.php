@@ -7,6 +7,7 @@ use App\Http\Controllers\Site\SiteController;
 use App\Repositories\MenusRepository;
 use App\Repositories\CompaniesRepository;
 use App\Repositories\ArticlesRepository;
+use Cache;
 use DB;
 
 class IndexController extends SiteController
@@ -14,7 +15,6 @@ class IndexController extends SiteController
     
    public function __construct(MenusRepository $m_rep, ArticlesRepository $a_rep, CompaniesRepository $c_rep) {
        parent::__construct($m_rep, $c_rep, $a_rep);
-       $this->page = env('THEM').'.index';
        $this->title = 'STIRI';
        
    }
@@ -26,8 +26,11 @@ class IndexController extends SiteController
      */
     public function index()    {
 
-        $firstnews = $this->getArticle();
-        $this->vars = array_add($this->vars, 'firstnews', $firstnews);
+        Cache::remember('firstnews', 20, function() {
+            return  $firstnews = $this->getArticle();
+        });
+
+        $this->vars = array_add($this->vars, 'content', Cache::get('firstnews'));
         return $this->getView();
     }
     

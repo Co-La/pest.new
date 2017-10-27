@@ -13,13 +13,11 @@ class ContactsController extends SiteController
     
     public function __construct(\App\Repositories\MenusRepository $m_rep, \App\Repositories\CompaniesRepository $c_rep, \App\Repositories\ArticlesRepository $a_rep) {
         parent::__construct($m_rep, $c_rep, $a_rep);
-        $this->page = env('THEM').'.site.contacts';
         $this->title = 'Contacte';
     }
     
-    public function index() {
-        
-                
+    public function index()
+    {
         $content = view(env('THEM').'.site.contacts_content')->render();
         $this->vars = array_add($this->vars, 'content', $content);
         return $this->getView();

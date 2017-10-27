@@ -41,7 +41,7 @@ class RegisterController extends SiteController
    
    public function showRegistrationForm()
     {
-        $this->page = env('THEM').'.site.delivery';
+        $this->page = env('THEM').'.site.home';
         $this->title = 'Inregistrare';
         $months = $this->monthGenerate();
         $dates = $this->daysGenerate();

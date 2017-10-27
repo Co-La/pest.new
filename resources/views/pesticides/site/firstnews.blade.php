@@ -11,6 +11,15 @@
             {!!  str_limit($article->text,500) !!}
         </p>
         <a href="{{ route('article', ['id' => $article->id]) }}" class="btn btn-success pull-right">Citeste</a>
-    </div>  
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <video controls width="100%" poster="{{ asset(env('THEM')) }}/video/ag_chem.jpg" >
+                <source src="{{ asset(env('THEM')) }}/video/ag_chem.webm" type='video/webm; codecs="vp8, vorbis"'>
+                <source src="{{ asset(env('THEM')) }}/video/ag_chem.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                <source src="{{ asset(env('THEM')) }}/video/ag_chem.ogv" type='video/ogg;  codecs="theora, vorbis"'>
+            </video>
+        </div>
+    </div>
 </div>
 @endif

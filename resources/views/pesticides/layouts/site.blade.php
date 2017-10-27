@@ -9,21 +9,21 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="{{ asset(env('THEM')) }}/css/bootstrap.min.css">    
-        <link rel="stylesheet" href="{{ asset(env('THEM')) }}/css/style.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset(env('THEM')) }}/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset(env('THEM')) }}/css/style.css">
         <link rel="stylesheet" type="text/css" href="{{ asset(env('THEM')) }}/css/jquery.bxslider.min.css" />    
-        <link rel="stylesheet" href="{{ asset(env('THEM')) }}/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{{ asset(env('THEM')) }}/css/style_common.css">
-        <link rel="stylesheet" href="{{ asset(env('THEM')) }}/css/style5.css">
-        <link rel="stylesheet" href="{{ asset(env('THEM')) }}/css/simplelightbox.css">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset(env('THEM')) }}/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset(env('THEM')) }}/css/style_common.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset(env('THEM')) }}/css/style5.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset(env('THEM')) }}/css/simplelightbox.css">
+        <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Arizonia" rel="stylesheet"> 
         <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css' />
-        <title>{{ $title }}</title>
-
+        <title>{{ isset($title) ? $title : 'pesticid' }}</title>
     </head>
+
     <body>
         <div class="container search-item">
             <!-- navigation-->
@@ -80,19 +80,16 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $(".bxslider").bxSlider();
-
                  var gallery = $("#image-schemes .gallery a").simpleLightbox();
+                 gallery.next();
 
-                      gallery.next();
-            });
-
-        </script>
-        
-        <script type="text/javascript">
-            $(function() {
-              $( "#datepicker1" ).datepicker();
-              $( "#datepicker2" ).datepicker();
-            } );
+                $("#company_ID").on("change",function () {
+                    var comp_id = $(this).val();
+                    if (comp_id !== null) {
+                        window.location.href = "/companies/"+ comp_id;
+                    }
+                    });
+                });
         </script>
 
     </body>

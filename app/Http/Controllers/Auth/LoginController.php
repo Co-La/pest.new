@@ -37,7 +37,7 @@ class LoginController extends SiteController
     public function __construct(\App\Repositories\MenusRepository $m_rep, \App\Repositories\CompaniesRepository $c_rep, \App\Repositories\ArticlesRepository $a_rep) {
         parent::__construct($m_rep, $c_rep, $a_rep);
         $this->middleware('guest')->except('logout');
-        $this->page = env('THEM').'.site.login';
+        $this->page = env('THEM').'.site.home';
         $this->title = 'Autentificare';
     }
     
@@ -72,6 +72,5 @@ class LoginController extends SiteController
     {
         $user = Socialite::driver('facebook')->user();
 
-        dd($user);
     }
 }

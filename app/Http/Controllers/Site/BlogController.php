@@ -8,6 +8,7 @@ use App\Repositories\MenusRepository;
 use App\Repositories\CompaniesRepository;
 use App\Repositories\ArticlesRepository;
 use App\Repositories\CommentsRepository;
+use Cache;
 
 
 
@@ -15,7 +16,6 @@ class BlogController extends SiteController
 {
     public function __construct(MenusRepository $m_rep, CompaniesRepository $c_rep, ArticlesRepository $a_rep, CommentsRepository $comm_rep) {
         parent::__construct($m_rep, $c_rep, $a_rep);
-        $this->page = env('THEM').'.site.articles';
         $this->title = 'Blog';
         $this->comm_rep = $comm_rep;
         
@@ -28,9 +28,14 @@ class BlogController extends SiteController
      */
     public function index()
     {
-        $articles = $this->getArticles();
-        $content = view(env('THEM').'.site.articles_content')->with('articles', $articles)->render();
-        $this->vars = array_add($this->vars, 'content', $content);
+        if(!Cache::has('blog_content')) {
+            Cache::remember('blog_content', 20, function() {
+               $articles = $this->getArticles();
+                return view(env('THEM').'.site.articles_content')->with('articles', $articles)->render();
+            });
+        }
+
+        $this->vars = array_add($this->vars, 'content', Cache::get('blog_content'));
         return $this->getView();
     }
     
@@ -69,12 +74,9 @@ class BlogController extends SiteController
      */
     public function show($id)
     {
-                
-        $this->page = env('THEM').'.site.article';
-        $this->title = 'Articol';        
+        $this->title = 'Articol';
         $article = $this->a_rep->getByID($id);  
-        $comments = $this->getComments($id); 
-        //dd($comments);
+        $comments = $this->getComments($id);
         $this->content = view(env('THEM').'.site.article_content')->with(['article'=> $article, 'comments' => $comments])->render();       
         return $this->getView();
     }

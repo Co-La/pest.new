@@ -12,9 +12,9 @@
                     </div>
                     <div class="col-md-7 col-sm-12 article-text-content">
                         <p style="text-align: right; font-size: 12px">{{ $article->created_at ? $article->created_at->format('Y/m/d H:m') : '' }}</p>
-                        <a href="{{ route('article', ['id' => $article->id])}}"><h3>{{ $article->title }}</h3></a>
+                        <a href="{{ route('article', ['id' => $article->id])}}"><h3>{!! $article->title !!}</h3></a>
                         <a href="{{ route('filter', ['id' => $article->filter_id])}}" class="filter_ch" ><h6>{{ $article->filter->name }}</h6></a>
-                        <p class="text-justify">{{ str_limit($article->text, 250) }}</p>
+                        <p class="text-justify">{!!  str_limit($article->text, 250) !!}</p>
                         <a href ="{{ route('article', ['id' => $article->id])}}">Ready more</a>
                     </div>
                 </div>

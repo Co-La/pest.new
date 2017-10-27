@@ -17,20 +17,18 @@ class BagController extends SiteController
 {
     
     public function __construct(MenusRepository $m_rep, CompaniesRepository $c_rep, ArticlesRepository $a_rep, ProductsRepository $p_rep) {
-        parent::__construct($m_rep, $c_rep, $a_rep );        
-        $this->page = env('THEM').'.site.bag';
+        parent::__construct($m_rep, $c_rep, $a_rep );
         $this->p_rep = $p_rep;
         $this->title = 'Cos';
     }
     
-    public function index(Request $request) {
-      
+    public function index(Request $request)
+    {
       $bag = $request->session()->get('bag.products');  
         if($bag) {            
             $bag_product_ID = array_keys($bag);
         }        
-        
-      //dd($bag);
+
         if(!empty($bag_product_ID)) {            
            $product_content = $this->getProductContent($bag_product_ID); 
         }  else {
@@ -41,8 +39,8 @@ class BagController extends SiteController
     }
         
     
-    public function bagAdd(Request $request) {
-        
+    public function bagAdd(Request $request)
+    {
         if($request->isMethod('POST')) {
             
             $prod_ID = $request['id'];            
@@ -55,32 +53,30 @@ class BagController extends SiteController
     }
     
     
-    public function delivery() {
-        
-        $this->page = env('THEM').'.site.delivery';
-        $this->title = 'Adresa';   
+    public function delivery()
+    {
+        $this->title = 'Adresa';
         $this->content = view(env('THEM').'.site.delivery_content')->render();
         return $this->getView();
     }
     
-    public function success() {
-       
+    public function success()
+    {
         $this->title = 'Sarcina indeplinita!';
         $this->page = env('THEM').'.site.success';
         return $this->getView();
     }
     
     
-    public function errors() {
-       
+    public function errors()
+    {
         $this->title = 'Eroare!';
         $this->page = env('THEM').'.site.errors';
         return $this->getView();
     }
     
-    public function confirm(MessageRequest $request) {
-        
-       //dd(Session::all());
+    public function confirm(MessageRequest $request)
+    {
         $signature = Config::get('settings.signeture');
         $xmldata = $this->getXML();
         $data = base64_encode($xmldata);
@@ -108,7 +104,7 @@ class BagController extends SiteController
             $products = Session::get('bag.products');
             $items = [];
             foreach($products as $key => $product) {
-               $item = ['name' => $key, 'number' => $product[0]['nbr'], 'price' => $product[0]['price']];
+               $item = ['name' => $key, 'number' => $product['nbr'], 'price' => $product['price']];
                array_push($items, $item);
             }
             
@@ -123,14 +119,14 @@ class BagController extends SiteController
                 $order_new = Bag::find(DB::table('bags')->select('*')->where('order_id', $order_id)->first()->id);          
                 $order_new->bproducts()->save($order_product);               
            }
-        $this->page = env('THEM').'.site.confirm';
+
         $this->content = view(env('THEM').'.site.confirm_content')->with(['data' => $data, 'sign' => $sign])->render();       
         return $this->getView();
         
     }
      
-    public function payed(Request $request) {
-        
+    public function payed(Request $request)
+    {
         $signature = Config::get('settings.signeture'); // строка, для подписи, указанная при регистрации мерчанта 
         if($request->isMethod('POST')) {
            $data = $request->data; 
@@ -184,8 +180,8 @@ class BagController extends SiteController
     
     
     
-    public function plusItem(Request $request) {
-                
+    public function plusItem(Request $request)
+    {
         if($request->isMethod('POST')) {            
         $prod_NR = $request['item_nbr']; 
         $prod_ID = $request['id'];
@@ -200,8 +196,8 @@ class BagController extends SiteController
         
     }
         
-    public function minusItem(Request $request) {
-                
+    public function minusItem(Request $request)
+    {
         if($request->isMethod('POST')) {          
         $prod_NR = $request['item_nbr']; 
         $prod_ID = $request['id'];
@@ -220,8 +216,8 @@ class BagController extends SiteController
     }
     
     
-    public function del_item($id) {           
-       
+    public function del_item($id)
+    {
         if(count(Session::get('bag.products')) > 1 ) {                 
            
             $price = Session::get('bag.products.'.$id.'.price');
@@ -239,7 +235,8 @@ class BagController extends SiteController
     
     
     
-    public function getFullPrice() {
+    public function getFullPrice()
+    {
        $total = 0;
         foreach(Session::get('bag.products') as $product) {            
            $total += $product['price'];
@@ -247,20 +244,21 @@ class BagController extends SiteController
         return $total;
     }
     
-    public function putFullPrice($total) {
+    public function putFullPrice($total)
+    {
         Session::put('bag.full_price', $total); 
     }
             
     
-    public function getProductContent($id_arr) {
-        
+    public function getProductContent($id_arr)
+    {
         $result = $this->p_rep->getItemsByID($id_arr, ['id','name', 'price', 'pack', 'curr', 'image', 'company_id']);
         $result->load('company');
         return $result;
     }
     
-    public function getPrice($id) {
-        
+    public function getPrice($id)
+    {
         $item_price = DB::table('products')->select(['price', 'curr'])->where('id', $id)->first();
         if($item_price->price > 0 ) {
             $price = $this->exChange($item_price->price, $item_price->curr);            
@@ -274,8 +272,8 @@ class BagController extends SiteController
     
     
     
-    public function getXML() {
-        
+    public function getXML()
+    {
         $merchantid = 'pesticid_md';
         $order_id = 'pest_id_'.rand(1, 10000);
         Session::put('bag.order_id', $order_id);

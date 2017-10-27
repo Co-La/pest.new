@@ -1,12 +1,4 @@
-jQuery(function() {
-
-    $('#company_ID option').on('click', function () {
-        var comp_id = $(this).val();
-        if (comp_id !== null) {
-          window.location.href = comp_id;
-        }
-    });
-
+$(document).ready(function() {
 
     $("#product_ID").on("change", function() {
         var prod_id = $(this).val();
@@ -248,8 +240,9 @@ jQuery(function() {
                 console.log(res);
                 $(".articles-list").html('');
                 $.each(res, function(key, value) {
+
                     $(".articles-list").append("<div class='col-12 blog-articles'><div class='row'><div class='col-md-5 col-sm-12'>" +
-                        "<a href='' alt='title'><image class='blog-article-image' src='pesticides/image/" + value.image.small + "' alt='article_image'>" +
+                        "<a href='' alt='title'><image class='blog-article-image' src='pesticides/image/articles/" + this.image.small + "' alt='article_image'>" +
                         "</div><div class='col-md-7 col-sm-12 article-text-content'><p style='text-align: right; font-size: 12px'>" + value.created_at + "</p>" +
                         "<a href='"+ 'blogs/'+ value.id + "'><h3>" + value.title + "</h3></a>" +
                         "<a href='' class='filter_ch' ><h6>" + value.filter.name + "</h6></a>" +
@@ -268,8 +261,6 @@ jQuery(function() {
     }, function() {
         $(this).css({'box-shadow': '0px 0px 20px rgba(0,0,0,0.5'});
     });
-
-
 
 });
 

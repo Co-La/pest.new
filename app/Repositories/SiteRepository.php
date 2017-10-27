@@ -52,6 +52,11 @@ class SiteRepository {
         return $this->checkJson($result);
     }
 
+    public function ItemsByID($id, $select='*')
+    {
+        return $this->model->select($select)->whereIn($id[0], $id[1])->get();
+    }
+
     public function checkJson($result)
     {
         if (count($result) > 1) {

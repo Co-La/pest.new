@@ -5,7 +5,7 @@
 Route::resource('/', 'Site\IndexController', ['names' => ['index' => 'home']]);
 Route::resource('/articles', 'Site\ArticleController', ['names' => ['index' => 'articles', 'show' => 'article']]);
 Route::get('/filter/{id}', 'Site\AjaxController@filter')->name('filter');
-Route::resource('/companies', 'Site\CompanieController', ['names' => ['index' => 'companies']]);
+Route::resource('/companies', 'Site\CompanieController', ['names' => ['index' => 'companies', 'show' => 'company']]);
 Route::get('/search', 'Site\SearchController@index')->name('search');
 Route::get('/ajax/{id?}', 'Site\AjaxController@ajaxIndex')->name('ajax');
 Route::group(['prefix' => 'bag'], function() {

@@ -38,6 +38,9 @@ class AjaxController extends SiteController
     {
         $filter_id = ['filter_id', $id];
         $articles = $this->a_rep->getAllByID($filter_id);
+        foreach($articles as $article) {
+            $article->image = json_decode($article->image);
+        }
         return $articles->load('filter');
     }
 

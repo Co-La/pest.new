@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\Site;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Site\SiteController;
 use App\Repositories\CompaniesRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\ArticlesRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\CategoriesRepository;
+use Cache;
 use App\Category;
 
 
 class CompanieController extends SiteController
 {
-    
+
     public function __construct(MenusRepository $m_rep, CompaniesRepository $c_rep, ArticlesRepository $a_rep, ProductsRepository $p_rep,CategoriesRepository $cat_rep) {
         parent::__construct($m_rep, $c_rep, $a_rep);
-        $this->page = env('THEM').'.site.companies'; 
         $this->p_rep = $p_rep;
         $this->cat_rep = $cat_rep;
         $this->title = 'PESTICIDE';
@@ -29,9 +28,9 @@ class CompanieController extends SiteController
      */
     public function index()
     {
-        $companies = $this->getCompanies();
-        $this->content = view(env('THEM').'.site.company_content')->with('companies', $companies)->render();
-        $this->vars = array_add($this->vars, 'content', $this->content);
+       $companies = $this->getCompanies();
+       $this->content = view(env('THEM').'.site.company_content')->with('companies', $companies)->render();
+       $this->vars = array_add($this->vars, 'content', $this->content);
         return $this->getView();
     }
       
@@ -64,26 +63,24 @@ class CompanieController extends SiteController
      */
     public function show($id)
     {
-        if(!is_numeric($id)) {            
-            abort(404);
-        }   
-
+       Cache::remember('companies', 20, function() {
+           return $this->getCompanies();
+       });
         $company = $this->getCompany($id);
-        $where = ['company_id', $id];              
-        $products = $this->getProducts($where);
-        $companies = $this->getCompanies();
-        $this->content = view(env('THEM').'.site.company_content')->with([  'company'   =>  $company, 
+        $products = $this->getProducts($id);
+        $company_custom = view(env('THEM').'.site.company_content_custom');
+        $this->content = view(env('THEM').'.site.company_content')->with([  'company'   =>  $company,
                                                                             'products'  =>  $products,
-                                                                            'companies' =>  $companies])->render();
+                                                                            'companies' =>  Cache::get('companies'),
+                                                                            'company_custom' => $company_custom
+                                                                        ])->render();
         $this->vars = array_add($this->vars, 'content', $this->content);
-         return $this->getView();
-        
+        return $this->getView();
     }
     
-    public function getCompany($id)     {
-            
-            $company = $this->c_rep->takeOne(FALSE , $id, ['id', 'name']);
-            
+    public function getCompany($id)
+    {
+      $company = $this->c_rep->takeOne(FALSE , $id, ['id', 'name']);
         return $company->toArray();
     }
     
@@ -91,31 +88,28 @@ class CompanieController extends SiteController
     {
         $companies = $this->c_rep->get(['id','name']);
         $arr = [];
-        $arr['01'] = 'Selectati compania';
+        $arr['0'] = 'Selectati compania';
         foreach($companies as $company) {           
-            $arr['/companies/'.$company->id] = $company->name;
+            $arr[$company->id] = $company->name;
         }
-        
-        //dd($arr);
         return $arr;
     }
     
-    public function getProducts($where = FALSE) {
+    public function getProducts($id) {
 
-        $products = $this->p_rep->get(['id', 'name', 'category_id', 'company_id'], FALSE, $where);
-        $products->load('category', 'company');       
-        
+        $company_id = ['company_id', [$id]];
+        $products = $this->p_rep->ItemsByID($company_id, ['id', 'name', 'category_id', 'company_id']);
+        if(count($products) > 0) {
+            $products->load('category', 'company');
+        }
         $list = array();
         $list[0] = 'Selectati produsul';
-        foreach($products as $product) {            
+        foreach($products as $product) {
             $list[Category::where('id', $product->category_id)->first()->name][$product->id] = $product->name;
         }
-        
         return $list;
-        
     }
 
-     
     /**
      * Show the form for editing the specified resource.
      *
